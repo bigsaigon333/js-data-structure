@@ -1,7 +1,8 @@
 const Deque = require("./Deque.js");
 
 const ex1 = [2, 3, 4, 5];
-const dq1 = new Deque(ex1);
+const dq1 = new Deque();
+dq1.push(...ex1);
 
 test("convertToArray", () => {
 	expect(dq1.array()).toEqual([2, 3, 4, 5]);
@@ -36,7 +37,8 @@ test("end", () => {
 	expect(dq1.end()).toBe(10);
 });
 
-const dq2 = new Deque([1]);
+const dq2 = new Deque();
+dq2.push(1);
 
 test("when the size is zero, it becomes an empty array properly", () => {
 	dq2.pop();
@@ -53,6 +55,17 @@ test("pop properly after it becomes empty array", () => {
 	dq2.pop();
 
 	expect(dq2.pop()).toBeUndefined();
+});
+
+test("push as many as possible over its length", () => {
+	const dq = new Deque();
+	dq.push(1);
+	dq.push(2);
+	dq.push(3);
+	dq.push(4);
+	dq.push(5);
+	dq.push(6);
+	expect(dq.array()).toEqual([1, 2, 3, 4, 5, 6]);
 });
 
 // test("unshift", () => {

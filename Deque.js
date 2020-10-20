@@ -1,28 +1,11 @@
 class Deque {
 	constructor(props) {
 		this.MAX_LEN = 1024;
+		this.length = 0;
 
-		if (props instanceof Array) {
-			if (this.MAX_LEN < props.length) {
-				this.MAX_LEN = props.length;
-			}
-
-			this.q = new Array(2 * this.MAX_LEN + 5);
-
-			this.head = Math.floor(this.MAX_LEN - props.length / 2);
-
-			let i = 0;
-			for (; i < props.length; i++) {
-				this.q[this.head + i] = props[i];
-			}
-			this.tail = this.head + i;
-		} else {
-			if (typeof props === "number") this.MAX_LEN = props;
-
-			this.q = new Array(2 * this.MAX_LEN + 5);
-			this.head = this.MAX_LEN;
-			this.tail = this.MAX_LEN;
-		}
+		this.q = new Array(2 * this.MAX_LEN + 5);
+		this.head = this.MAX_LEN;
+		this.tail = this.MAX_LEN;
 	}
 
 	array() {
@@ -34,21 +17,35 @@ class Deque {
 	}
 
 	pop() {
-		if (this.size() > 0) return this.q[--this.tail];
-		else return undefined;
+		if (this.size() > 0) {
+			const ret = this.q[--this.tail];
+			this.length = this.size();
+
+			return ret;
+		} else return undefined;
 	}
 
-	push(val) {
-		this.q[this.tail++] = val;
+	push(...values) {
+		for (const val of values) {
+			this.q[this.tail++] = val;
+		}
+		this.length = this.size();
 	}
 
 	shift() {
-		if (this.size() > 0) return this.q[this.head++];
-		else return undefined;
+		if (this.size() > 0) {
+			const ret = this.q[this.head++];
+			this.length = this.size();
+
+			return ret;
+		} else return undefined;
 	}
 
-	unshift(val) {
-		this.q[--this.head] = val;
+	unshift(...values) {
+		for (const val of values) {
+			this.q[--this.head] = val;
+		}
+		this.length = this.size();
 	}
 
 	front() {
